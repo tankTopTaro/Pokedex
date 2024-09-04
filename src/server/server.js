@@ -2,7 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import 'dotenv/config'
-import { get_pokedex, post_pokedex, get_null } from '../controllers/pokedexController.js'
+import { get_pokedex, post_pokedex } from '../controllers/pokedexController.js'
 import { limiter } from '../middlewares/ratelimit.js'
 
 const app = express()
@@ -31,5 +31,3 @@ mongoose.connect(uri)
 app.get('/api/pokedex', get_pokedex)
 
 app.post('/api/pokedex', post_pokedex)
-
-app.get('/api/null', get_null)
