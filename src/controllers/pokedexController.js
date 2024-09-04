@@ -2,7 +2,7 @@ import axios from "axios"
 import { Pokemon } from "../models/pokemon.js"
 import { getAverageColor } from "fast-average-color-node"
 
-/* const limit = 10000
+const limit = 10000
 const offset = 0
 
 const pokemons = []
@@ -59,7 +59,7 @@ const fetchPokemonBaseColor = async () => {
             .filter(url => url !== undefined && url !== null)
 
         const requests = spriteUrls.map(url => getAverageColor(url, {
-            algorithm: "simple",
+            algorithm: "sqrt",
             ignoredColor: [
                 [255, 255, 255, 255],
                 [0, 0, 0, 255]
@@ -166,17 +166,17 @@ const chunkArray = (array, size) => {
         result.push(array.slice(i, i + size))
     }
     return result
-} */
+}
 
 // Controllers
 const get_pokedex = async (req, res) => {
-    /* await fetchAllData()
+    await fetchAllData()
     res.json(pokemons)
-    console.log('get_pokedex') */
+    console.log('get_pokedex')
 }
 
 const post_pokedex = async (req, res) => {
-    /* const data = await storeAllData()
+    const data = await storeAllData()
     const batches = chunkArray(data, 20)
 
     for (const batch of batches) {
@@ -188,7 +188,7 @@ const post_pokedex = async (req, res) => {
         }
     }
     
-    console.log('post_pokedex') */
+    console.log('post_pokedex')
 }
 
 export {
