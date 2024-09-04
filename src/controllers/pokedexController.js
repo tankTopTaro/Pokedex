@@ -2,7 +2,7 @@ import axios from "axios"
 import { Pokemon } from "../models/pokemon.js"
 import { getAverageColor } from "fast-average-color-node"
 
-const limit = 10000
+const limit = 5
 const offset = 0
 
 const pokemons = []
@@ -60,6 +60,7 @@ const fetchPokemonBaseColor = async () => {
 
         const requests = spriteUrls.map(url => getAverageColor(url, {
             algorithm: "sqrt",
+            mode: "precision",
             ignoredColor: [
                 [255, 255, 255, 255],
                 [0, 0, 0, 255]
