@@ -4,10 +4,10 @@ import { Pokemon } from "../models/pokemon.js"
 const get_pokedex = async (req, res) => {
    try {
           console.log('Getting data in database')
-        const pokedex = await Pokemon.find().sort({ _id: 1})
-        res.json(pokedex)
+          const pokedex = await Pokemon.find().sort({ _id: 1})
+          res.json(pokedex)
    } catch (error) {
-        console.error('Get Pokedex Error:', error)
+          console.error('Get Pokedex Error:', error)
    } 
 }
 
