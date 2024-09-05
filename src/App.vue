@@ -43,7 +43,6 @@ const fetchPokedexData = async () => {
 
 const handlePaletteEmit = (emittedPalette) => {
    palette.value = emittedPalette
-   console.log('Palette:', palette.value[0])
 }
 
 onBeforeMount(() => {
@@ -53,8 +52,8 @@ onBeforeMount(() => {
  
 <template>
    <div class="h-svh w-svw overflow-x-hidden">
-      <div class="w-full h-full drop-shadow-xl absolute -translate-x-[65%] -skew-x-[25deg] z-20 transition-all duration-300" :style="{backgroundColor: palette[0] || '#93c5fd'}"></div>
-      <div class="w-full h-full drop-shadow-xl absolute -translate-x-[55%] -skew-x-[25deg] z-10 transition-all duration-300" :style="{backgroundColor: palette[1] || '#60a5fa'}"></div>
+      <div class="w-full h-full shadow-2xl absolute -translate-x-[65%] -skew-x-[25deg] z-20 transition-all duration-300" :style="{backgroundColor: palette[0] || '#93c5fd'}"></div>
+      <div class="w-full h-full shadow-2xl absolute -translate-x-[55%] -skew-x-[25deg] z-10 transition-all duration-300" :style="{backgroundColor: palette[1] || '#60a5fa'}"></div>
       <div class="w-full h-full absolute z-0 transition-all duration-300 overflow-hidden bg-zinc-200">
          <div class="absolute bottom-0 right-0 text-gray-300 translate-x-1/3 translate-y-1/3">
             <svg  xmlns="http://www.w3.org/2000/svg"  width="1000"  height="1000"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="0.4"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-pokeball motion-safe:animate-spin-slow">

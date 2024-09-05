@@ -2,6 +2,8 @@
 import { computed, ref } from 'vue';
 import Pokemon from './Pokemon.vue';
 import Modal from './components/Modal.vue';
+import Paginate from './components/Paginate.vue';
+import SortSearch from './components/SortSearch.vue';
 import Generations from '../objects/Generations'
 
 const props = defineProps({
@@ -11,7 +13,7 @@ const props = defineProps({
 const emit = defineEmits(['palette'])
 
 // Modal
-const selectedGeneration = ref({ id: 0, name: 'All Generations', value: 'all-generation' })
+const selectedGeneration = ref({ id: 0, name: 'All Generations', value: 'all-generation', isActive: true })
 const isModalOpen = ref(false)
 const defaultPalette = ['#93c5fd', '#60a5fa']
 
@@ -24,11 +26,14 @@ const closeModal = () => {
 }
 
 const handleGenerationSelect = (generation) => {
-    selectedGeneration.value = generation
+    selectedGeneration.value = {...generation, isActive: true}
     closeModal()
     emit('palette', defaultPalette)
     if (currentBox.value !== 1) {
         currentBox.value = 1
+    }
+    if (searchQuery.value !== '') {
+        searchQuery.value = ''
     }
 }
 
@@ -74,23 +79,11 @@ const prevBox = () => {
         currentBox.value = totalBox.value
     }
 }
-
-// implement search
 </script>
 
 <template>
     <!-- Paginate pokedex -->
-    <div class="flex mb-4 w-full lg:w-3/4 xl:w-1/2 items-center justify-center transition-all duration-300">
-        <div class="flex w-1/2 py-3 items-center justify-between bg-slate-100 rounded-full">
-            <span class="flex items-center justify-center p-2 w-20 max-h-full text-red-500" @click="prevBox">
-                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-arrow-badge-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 6h-6a1 1 0 0 0 -.78 .375l-4 5a1 1 0 0 0 0 1.25l4 5a1 1 0 0 0 .78 .375h6l.112 -.006a1 1 0 0 0 .669 -1.619l-3.501 -4.375l3.5 -4.375a1 1 0 0 0 -.78 -1.625z" /></svg>
-            </span>
-            <h1 class="text-xl lg:text-2xl mx-4">{{ 'Box ' + currentBox }}</h1>
-            <span class="flex items-center justify-center p-2 w-20 h-full text-red-500" @click="nextBox">
-                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-arrow-badge-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" /></svg>
-            </span>
-        </div>
-    </div>
+    <Paginate :currentBox="currentBox" :prevBox="prevBox" :nextBox="nextBox" />
     <!-- Box Grid -->
     <div class="h-1/2 mb-14">
         <div class="grid grid-cols-6 gap-2">
@@ -104,17 +97,8 @@ const prevBox = () => {
         </div>
     </div>
     <!-- Search & Sort -->
-    <div class="flex w-full lg:w-3/4 xl:w-1/2 items-center justify-center gap-4 px-8 transition-all duration-300">
-        <div @click="openModal" class="flex w-1/3 py-3 items-center justify-center bg-slate-100 rounded-full cursor-pointer">
-            <span>{{ selectedGeneration.name }}</span>
-        </div>
-        <div class="flex w-1/3 py-3 items-center justify-center bg-slate-100 rounded-full">
-            <div class="px-4 text-gray-500">
-                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-            </div>
-            <input v-model="searchQuery" type="text" placeholder="Search" class="w-full px-2 rounded-full bg-transparent focus:outline-none">
-        </div>
-    </div>
+    <SortSearch v-model:searchQuery="searchQuery" :openModal="openModal" :selectedGeneration="selectedGeneration" />
+
     <!-- Modal -->
-    <Modal :isOpen="isModalOpen" :generations="Generations" @close="closeModal" @select="handleGenerationSelect" />
+    <Modal :isOpen="isModalOpen" :generations="Generations" :selectedGeneration="selectedGeneration" @close="closeModal" @select="handleGenerationSelect" />
 </template>

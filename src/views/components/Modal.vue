@@ -1,8 +1,9 @@
 <script setup>
 
-const props = defineProps({
+const { isOpen, generations, selectedGeneration } = defineProps({
     isOpen: Boolean,
-    generations: Array
+    generations: Object,
+    selectedGeneration: Object
 })
 
 const emit = defineEmits(['close', 'select'])
@@ -24,7 +25,7 @@ const selectGeneration = (generationId) => {
                 <svg  xmlns="http://www.w3.org/2000/svg"  width="34"  height="34"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
             </button>
             <div class="flex flex-col gap-2">
-                <button v-for="generation in generations" :key="generation.id" @click="selectGeneration(generation)" class="p-2 bg-blue-500 text-white rounded-full">
+                <button v-for="generation in generations" :key="generation.id" @click="selectGeneration(generation)" class="p-2 text-white rounded-full" :style="{backgroundColor: selectedGeneration.value.isActive ? '#d1d5db' : '#6b7280'}">
                     {{ generation.name }}
                 </button>
             </div>
