@@ -13,6 +13,7 @@ const emit = defineEmits(['palette'])
 // Modal
 const selectedGeneration = ref({ id: 0, name: 'All Generations', value: 'all-generation' })
 const isModalOpen = ref(false)
+const defaultPalette = ['#93c5fd', '#60a5fa']
 
 const openModal = () => {
     isModalOpen.value = true
@@ -25,7 +26,7 @@ const closeModal = () => {
 const handleGenerationSelect = (generation) => {
     selectedGeneration.value = generation
     closeModal()
-
+    emit('palette', defaultPalette)
     if (currentBox.value !== 1) {
         currentBox.value = 1
     }
@@ -81,9 +82,13 @@ const prevBox = () => {
     <!-- Paginate pokedex -->
     <div class="flex mb-4 w-full lg:w-3/4 xl:w-1/2 items-center justify-center transition-all duration-300">
         <div class="flex w-1/2 py-3 items-center justify-between bg-slate-100 rounded-full">
-            <button class="p-2 w-20 max-h-full text-red-500" @click="prevBox">Prev</button>
+            <span class="flex items-center justify-center p-2 w-20 max-h-full text-red-500" @click="prevBox">
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-arrow-badge-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 6h-6a1 1 0 0 0 -.78 .375l-4 5a1 1 0 0 0 0 1.25l4 5a1 1 0 0 0 .78 .375h6l.112 -.006a1 1 0 0 0 .669 -1.619l-3.501 -4.375l3.5 -4.375a1 1 0 0 0 -.78 -1.625z" /></svg>
+            </span>
             <h1 class="text-xl lg:text-2xl mx-4">{{ 'Box ' + currentBox }}</h1>
-            <button class="p-2 w-20 h-full text-red-500" @click="nextBox">Next</button>
+            <span class="flex items-center justify-center p-2 w-20 h-full text-red-500" @click="nextBox">
+                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="currentColor"  class="icon icon-tabler icons-tabler-filled icon-tabler-arrow-badge-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 6l-.112 .006a1 1 0 0 0 -.669 1.619l3.501 4.375l-3.5 4.375a1 1 0 0 0 .78 1.625h6a1 1 0 0 0 .78 -.375l4 -5a1 1 0 0 0 0 -1.25l-4 -5a1 1 0 0 0 -.78 -.375h-6z" /></svg>
+            </span>
         </div>
     </div>
     <!-- Box Grid -->
@@ -92,9 +97,8 @@ const prevBox = () => {
             <div
                 v-for="pokemon in paginatedPokemons" 
                 :key="pokemon.id" 
-                class="flex flex-col items-center rounded-xl"
-                @click="emit('palette', pokemon.palette.accents)"
-                :style="{ background: pokemon.palette.base }">
+                class="flex flex-col items-center rounded-xl bg-zinc-50 bg-opacity-30"
+                @click="emit('palette', pokemon.palette.accents)">
                 <Pokemon :pokemon="pokemon" />
             </div>
         </div>

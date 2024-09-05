@@ -5,6 +5,9 @@ export default {
     extend: {
       fontFamily: {
         nunito: 'Nunito'
+      },
+      animation: {
+        'spin-slow': 'spin 15s linear infinite',
       }
     },
   },

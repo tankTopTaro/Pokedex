@@ -18,6 +18,6 @@ const name = computed (() => {
 
 <template>
     <div class="flex items-center w-24 h-24">
-        <img :src="pokemon.sprites.front_default" :alt="pokemon.name">
+        <img :src="pokemon.sprites.front_default" :alt="pokemon.name" loading="lazy">
     </div>
 </template>

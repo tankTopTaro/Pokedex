@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port 3000",
-    "server": "NODE_ENV=production && nodemon ./src/server/server",
+    "server": "nodemon ./src/server/server",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -20,7 +20,8 @@
     "express-rate-limit": "^7.4.0",
     "fast-average-color-node": "^3.0.0",
     "mongoose": "^8.6.0",
-    "vue": "^3.4.37"
+    "vue": "^3.4.37",
+    "vue-spinner": "^1.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.2",
