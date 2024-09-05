@@ -26,7 +26,13 @@ const closeModal = () => {
 }
 
 const handleGenerationSelect = (generation) => {
-    selectedGeneration.value = {...generation, isActive: true}
+    Generations.forEach(gen => {
+        gen.isActive = gen.id === generation.id; // Set isActive to true for the selected generation and false for others
+    })
+
+    selectedGeneration.value = {...generation}
+
+    console.log(selectedGeneration.value)
     closeModal()
     emit('palette', defaultPalette)
     if (currentBox.value !== 1) {
@@ -100,5 +106,5 @@ const prevBox = () => {
     <SortSearch v-model:searchQuery="searchQuery" :openModal="openModal" :selectedGeneration="selectedGeneration" />
 
     <!-- Modal -->
-    <Modal :isOpen="isModalOpen" :generations="Generations" :selectedGeneration="selectedGeneration" @close="closeModal" @select="handleGenerationSelect" />
+    <Modal :isOpen="isModalOpen" :generations="Generations" @close="closeModal" @select="handleGenerationSelect" />
 </template>
