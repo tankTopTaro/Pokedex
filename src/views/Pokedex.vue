@@ -7,14 +7,13 @@ import SortSearch from './components/SortSearch.vue';
 import Generations from '../objects/Generations'
 
 const props = defineProps({
-    pokedex: Object
+    pokedex: Object,
 })
 
 const emit = defineEmits(['pokemon', 'palette'])
 
 const handlePokemonClick = (pokemon) => {
     emit('pokemon', pokemon)
-
     emit('palette', pokemon.palette.accents)
 }
 
