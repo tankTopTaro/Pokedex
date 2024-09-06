@@ -1,23 +1,20 @@
 <script setup>
-
-import { computed } from 'vue';
+import { computed, ref } from 'vue'
 
 const { pokemon } = defineProps({
-    pokemon: Object
+    pokemon: Object,
 })
 
-const genera = computed (() => {
-    return pokemon.genera.find(entry => entry.language === 'en')?.genus
-}) 
 
-const name = computed (() => {
-    return pokemon.name[0].toUpperCase() + pokemon.name.slice(1)
+
+const currentImage = computed(() => {
+    return hovered ? pokemon.sprites.front_shiny : pokemon.sprites.front_default
 })
 
 </script>
 
 <template>
-    <div class="flex items-center w-24 h-24">
+    <div class="flex items-center object-contain" @click="openModal">
         <img :src="pokemon.sprites.front_default" :alt="pokemon.name" loading="lazy">
     </div>
 </template>

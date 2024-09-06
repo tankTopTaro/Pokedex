@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import Pokemon from './Pokemon.vue';
 import Modal from './components/Modal.vue';
 import Paginate from './components/Paginate.vue';
@@ -10,19 +10,25 @@ const props = defineProps({
     pokedex: Object
 })
 
-const emit = defineEmits(['palette'])
+const emit = defineEmits(['pokemon', 'palette'])
+
+const handlePokemonClick = (pokemon) => {
+    emit('pokemon', pokemon)
+
+    emit('palette', pokemon.palette.accents)
+}
 
 // Modal
 const selectedGeneration = ref({ id: 0, name: 'All Generations', value: 'all-generation', isActive: true })
-const isModalOpen = ref(false)
+const isOpen = ref(false)
 const defaultPalette = ['#93c5fd', '#60a5fa']
 
 const openModal = () => {
-    isModalOpen.value = true
+    isOpen.value = true
 }
 
 const closeModal = () => {
-    isModalOpen.value = false
+    isOpen.value = false
 }
 
 const handleGenerationSelect = (generation) => {
@@ -88,23 +94,43 @@ const prevBox = () => {
 </script>
 
 <template>
-    <!-- Paginate pokedex -->
-    <Paginate :currentBox="currentBox" :prevBox="prevBox" :nextBox="nextBox" />
-    <!-- Box Grid -->
-    <div class="h-1/2 mb-14">
-        <div class="grid grid-cols-6 gap-2">
-            <div
-                v-for="pokemon in paginatedPokemons" 
-                :key="pokemon.id" 
-                class="flex flex-col items-center rounded-xl bg-zinc-50 bg-opacity-30"
-                @click="emit('palette', pokemon.palette.accents)">
-                <Pokemon :pokemon="pokemon" />
+    <div class="w-full px-4 flex flex-col">
+        <!-- Paginate pokedex -->
+        <Paginate :currentBox="currentBox" :prevBox="prevBox" :nextBox="nextBox" />
+        <!-- Box Grid -->
+        <div class="mb-4">
+            <div class="grid grid-cols-5 lg:grid-cols-6 gap-2 h-1/2">
+                <div
+                    v-for="pokemon in paginatedPokemons" 
+                    :key="pokemon.id" 
+                    class="cursor-scale flex flex-col items-center rounded-xl bg-zinc-50 bg-opacity-30"
+                    @click="handlePokemonClick(pokemon)">
+                    <Pokemon :pokemon="pokemon" />
+                </div>
             </div>
         </div>
+        <!-- Search & Sort -->
+        <SortSearch v-model:searchQuery="searchQuery" :openModal="openModal" :selectedGeneration="selectedGeneration" />
     </div>
-    <!-- Search & Sort -->
-    <SortSearch v-model:searchQuery="searchQuery" :openModal="openModal" :selectedGeneration="selectedGeneration" />
-
-    <!-- Modal -->
-    <Modal :isOpen="isModalOpen" :generations="Generations" @close="closeModal" @select="handleGenerationSelect" />
+    <!-- Generations Modal -->
+    <Transition>
+        <Modal :isOpen="isOpen" :close="closeModal">
+            <h1 class="text-2xl text-center mb-4 font-semibold">Select Generation</h1>
+            <button v-for="generation in Generations" :key="generation.id" @click="handleGenerationSelect(generation)" class="cursor-scale p-2 text-white rounded-full" :style="{backgroundColor: generation.isActive ? '#71717a' : '#52525b'}">
+                {{ generation.name }}
+            </button>
+        </Modal>
+    </Transition>
 </template>
+
+<style scoped>
+    .v-enter-active,
+    .v-leave-active {
+    transition: opacity 0.5s ease;
+    }
+
+    .v-enter-from,
+    .v-leave-to {
+    opacity: 0;
+    }
+</style>
