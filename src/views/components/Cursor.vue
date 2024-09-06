@@ -36,13 +36,15 @@ onMounted(() => {
     })
 
     document.addEventListener('mouseenter', (e) => {
-        if (e.target.matches('.cursor-scale')) {
+        const target = e.target
+        if (target instanceof Element && target.matches('.cursor-scale')) {
             cursor.classList.add('grow')
         }
     }, true)
 
     document.addEventListener('mouseleave', (e) => {
-        if (e.target.matches('.cursor-scale')) {
+        const target = e.target
+        if (target instanceof Element && target.matches('.cursor-scale')) {
             cursor.classList.remove('grow')
         }
     }, true)

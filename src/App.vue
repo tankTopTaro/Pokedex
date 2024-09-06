@@ -37,7 +37,6 @@ const fetchPokedexData = async () => {
  
          // Update pokedex with fetched data
          pokedex.value = data
-         console.log(data)
       }
    } catch (error) {
       console.error('Error @ fetchPokedexData:', error)
