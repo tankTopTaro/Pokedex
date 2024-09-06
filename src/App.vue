@@ -5,8 +5,6 @@ import Types from './objects/Types.js'
 import Pokedex from './views/Pokedex.vue'
 import Cursor from './views/components/Cursor.vue'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
-import { data } from 'autoprefixer'
-import VueApexCharts from 'vue3-apexcharts'
 
 const pokedex = ref({})
 const isLoading = ref(true)
@@ -25,7 +23,7 @@ const fetchPokedexData = async () => {
          pokedex.value = cachedData
       } else {
          // Fetch data from API if not in cache
-         const response = await axios.get('https://pokedex-v4-tanktoptaro.netlify.app/.netlify/functions/fetch-data')
+         const response = await axios.get('https://pokedex-v4-tanktoptaro.netlify.app/.netlify/functions/fetch')
          const data = response.data
 
          // Store fetched data in Cache Storage
