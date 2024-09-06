@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onBeforeMount, ref } from 'vue'
-import axios from 'axios'
 import Types from './objects/Types.js'
 import Pokedex from './views/Pokedex.vue'
 import Cursor from './views/components/Cursor.vue'
@@ -13,29 +12,9 @@ const pokemon = ref([])
 
 const fetchPokedexData = async () => {
    try {
-      // Check Cache Storage
-      const cache = await caches.open('pokedex-cache')
-      const cachedResponse = await cache.match('pokedex-data')
-
-      if (cachedResponse) {
-         // Use cached data if available
-         const cachedData = await cachedResponse.json()
-         pokedex.value = cachedData
-      } else {
-         // Fetch data from API if not in cache
-         const response = await axios.get('http://localhost:5000/api/pokedex')
-         const data = response.data
-
-         // Store fetched data in Cache Storage
-         const responseData = new Response(JSON.stringify(data), {
-            headers: { 'Content-Type': 'application/json' }
-         })
-
-         await cache.put('pokedex-data', responseData)
- 
-         // Update pokedex with fetched data
-         pokedex.value = data
-      }
+      const response = await fetch('/Pokedex.pokemons.json')
+      const data = await response.json()
+      pokedex.value = data
    } catch (error) {
       console.error('Error @ fetchPokedexData:', error)
    } finally {
