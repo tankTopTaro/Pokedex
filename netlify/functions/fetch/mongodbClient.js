@@ -15,7 +15,7 @@ const fetchCollectionData = async (dbName, collectionName) => {
     await client.connect();
     const database = client.db(dbName);
     const collection = database.collection(collectionName);
-    const data = await collection.find({}).limit(30).toArray();
+    const data = await collection.find({}).limit(151).toArray();
     console.log(data)
     return data;
   } catch (error) {
