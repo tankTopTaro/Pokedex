@@ -1,18 +1,13 @@
-import { fetchCollectionData } from "./mongodbClient"
+import { fetchCollectionData } from "./mongodbClient.js"
 
-const handler = async (event) => {
+export const handler = async () => {
   try {
-    const data = await fetchCollectionData('Pokedex', 'pokemons');
+    const data = await fetchCollectionData('Pokedex', 'pokemons')
     return {
       statusCode: 200,
-      body: JSON.stringify(data),
-      // // more keys you can return:
-      // headers: { "headerName": "headerValue", ... },
-      // isBase64Encoded: true,
+      body: JSON.stringify(data)
     }
   } catch (error) {
     return { statusCode: 500, body: error.toString() }
   }
 }
-
-module.exports = { handler }
